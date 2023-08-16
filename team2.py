@@ -28,22 +28,27 @@ def move(my_history, their_history):
     if len(my_history) <= 0:
         pick = random.choice(["r", "p", "s"])
 
+    # If I have moved once, then base my next move on their history
     elif len(my_history) == 1:
-        # If I have moved once, then base my next move on their history
+
         basic_move(their_history[-1])
+
+    # If we are on the second or further, look for a pattern with the last two moves
+    # If a pattern is found, counterpick it.  Otherwise, choose randomly.
     else:
-        # If we are on the second or further, look for a pattern with the last two moves
-        # If a pattern is found, counterpick it.  Otherwise, choose randomly.
+
         immediate_history = their_history[len(their_history) - 1] + their_history[len(their_history) - 2]
         if immediate_history[-2] == immediate_history[-1]:
-            if immediate_history[-2] == "r":
+            if immediate_history[-1] == "r":
                 pick = "p"
-            if immediate_history[-2] == "p":
+            if immediate_history[-1] == "p":
                 pick = "s"
-            if immediate_history[-2] == "s":
+            if immediate_history[-1] == "s":
                 pick = "r"
 
         # If no pattern, pick based on their last entry
         else:
             basic_move(their_history)
+
+    # Return whatever the final pick is.
     return pick
